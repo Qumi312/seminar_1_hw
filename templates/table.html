@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block title %}
+    Таблица
+{% endblock %}
+
+{% block content %}
+    {#    <script src='{{ url_for ('static', filename = 'style.js') }}'></script>#}
+    <link rel="stylesheet" href="{{ url_for ('static', filename = 'style.css') }}">
+    <style>
+        table {
+            margin: auto;
+        }
+    </style>
+    <header>
+
+    </header>
+    <table class="sortable table-bordered text-center">
+        <caption>Перечень продуктов</caption>
+        <tr>
+            </br>
+            <div class="modal-body text-center align-left">
+                <!-- Ссылки на вызов модальных окон-->
+                <a href="#win1">Добавить товар</a>
+                <a href="#win2">Открыть окно 2</a>
+
+                <!-- Модальное окно №1 -->
+                <a href="#x" class="overlay" id="win1"></a>
+                <div class="popup">
+                    <form method=post enctype="multipart/form-data">
+
+                        <select name="loc_name" id="">
+                            {% for loc in locations %}
+                                <input type="hidden" id="_id" name="s_id" value="{{ loc.id }}">
+                                <option value="Локация">{{ loc }}</option>
+                            {% endfor %}
+                        </select> <br>
+                        <input type="text" placeholder="Название продукта" name='product_name'><br>
+                        <input type="text" placeholder="Описание продукта" name='description'><br>
+                        <input type="text" placeholder="Цена" name='price'><br>
+                        <input type="text" placeholder="Количество" name='quantity'><br>
+                        <input type="submit" value="Отправить" name='send'>
+                    </form>
+                    <a class="close" title="Закрыть" href="#close"></a>
+                </div>
+                <!-- Модальное окно №2 -->
+                <a href="#x" class="overlay" id="win2"></a>
+                <div class="popup">
+                    Здесь вы можете разместить любое содержание, текст с картинками или видео!
+                    <a class="close" title="Закрыть" href="#close"></a>
+                </div>
+            </div>
+        </tr>
+        <tr>
+            <th>№ п/п</th>
+            <th>Наименование товара</th>
+            <th>Описание товара</th>
+            <th>Цена, р</th>
+            <th>Местонахождение</th>
+            <th>Количество</th>
+            <th>Добавить/убрать со склада</th>
+        </tr>
+        {% for inv in inventory %}
+            <tr>
+                <th>{{ inv.products.id }}</th>
+                <th>{{ inv.products.name }}</th>
+                <th>{{ inv.products.description }}</th>
+                <th>{{ inv.products.price }}</th>
+                <th>{{ inv.locations.name }}</th>
+                <th>{{ inv.quantity }}</th>
+                <th>
+                    <form method=post action="{{ url_for('index') }}" enctype="multipart/form-data">
+                        <input type="hidden" id="_id" name="_id" value="{{ inv.products.id }}">
+                        <input value="Добавить" type="submit" name='add'>
+                        <input value="Удалить" type='submit' name='del'>
+                    </form>
+                </th>
+            </tr>
+        {% endfor %}
+    </table>
+
+{% endblock %}

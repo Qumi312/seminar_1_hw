@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}
+Выгрузка
+{% endblock %}
+{% block content %}
+
+    {% for location in locations %}
+    	{{ location }}
+    {% endfor %}
+
+    {% for inv in inventory %}
+        {{ inv }}
+    {% endfor %}
+
+    {% for product in products %}
+    	{{ product }}
+    {% endfor %}
+
+{% endblock %}
